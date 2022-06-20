@@ -1,39 +1,44 @@
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int>& nums) {
-        int n=nums.size();
-         vector<vector<int>> ans;
-        sort(nums.begin(),nums.end());
-        if(n<3){return {};}
-        //if(n==4 && nums[0]==0 && nums[1]==0 && nums[2]==0 &&  nums[3]==0){return {{0,0,0}};}
-        for(int i=0;i<n-2;i++)
-        {
-            if(i==0 || nums[i-1]!=nums[i])
-            {
-               int j=i+1;
-               int k=n-1;
-                while(j<k)
-                {
-                    int sum=nums[i]+nums[j]+nums[k];
-                    if(sum==0)
-                    {
-                       ans.push_back({nums[i],nums[j],nums[k]});
-                        while(j<k && nums[j]==nums[j+1]) j++;
-                        while(j<k && nums[k]==nums[k-1]) k--;
-                        j++; k--;
-                    }
-                    
-                    else if(sum>0)
-                    {
-                        k--;
-                    }
-                    else
-                    {
-                        j++;
-                    }
+    vector<vector<int>> threeSum(vector<int>& arr) {
+       sort(arr.begin(), arr.end());
+    vector<vector<int>> res;
+    if(arr.size() < 3){
+        return {};
+    }
+        int h, l;
+    for(int i = arr.size() -  1; i >= 2; i--){
+        h = i - 1;
+        l = 0;
+        
+        int k = -arr[i];
+        if(i != arr.size()-1 && arr[i] == arr[i+1]){
+            continue;
+        }
+        while(l < h){
+            int left = arr[l];
+        int right = arr[h];
+            if(right+left > k){
+                h--;
+            }
+            else if(right+left < k){
+                l++;
+            }
+            else if(right+left == k){
+                if((l != 0 && h != i-1) && (arr[l] == arr[l-1] && arr[h] == arr[h+1])){
+                    h--;
+                    l++;
+                    continue;
                 }
+                else{
+                res.push_back({arr[l],arr[h],arr[i]});
+                h--;
+                l++;
+                } 
             }
         }
-        return ans;
+        
+    }
+    return res;
     }
 };
