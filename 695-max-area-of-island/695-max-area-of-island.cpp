@@ -1,26 +1,26 @@
 class Solution {
 public:
     
-    void dfs(vector<vector<int>>& grid, int i, int j, int row, int column, int &island){
+    int dfs(vector<vector<int>>& grid, int i, int j, int row, int column, int island){
         
-        island++;
+        
+        if (i < 0 || j < 0 || i >= grid.size() || j >= grid[i].size()){
+            return 0;
+        }
+        if (grid[i][j] == 0) {
+            return 0;
+        }
+        
         grid[i][j] = 0;
         
-        if(i+1 >= 0 && i+1 < row && j >= 0 && j < column && grid[i+1][j] == 1){
-            dfs(grid, i+1, j, row, column, island);
-        }
+       island = 0;
         
-        if(i-1 >= 0 && i-1 < row && j >= 0 && j < column && grid[i-1][j] == 1){
-            dfs(grid, i-1, j, row, column, island);
-        }
+        island += dfs(grid, i, j - 1, row, column, island);
+        island += dfs(grid, i, j + 1, row, column, island);
+        island += dfs(grid, i - 1, j, row, column, island);
+        island += dfs(grid, i + 1, j, row, column, island);
         
-        if(i >= 0 && i < row && j+1 >= 0 && j+1 < column && grid[i][j+1] == 1){
-            dfs(grid, i, j+1, row, column, island);
-        }
-        
-        if(i+1 >= 0 && i < row && j-1 >= 0 && j < column && grid[i][j-1] == 1){
-            dfs(grid, i, j-1, row, column, island);
-        }
+        return island + 1;
     }
     
     int maxAreaOfIsland(vector<vector<int>>& grid) {
@@ -32,9 +32,9 @@ public:
         for(int i = 0; i < grid.size(); i++){
             for(int j = 0; j < grid[0].size(); j++){
                 if(grid[i][j] == 1){
-                    int island = 0;
-                    dfs(grid, i, j, row, column, island);
-                    res = max(res, island);
+                   int island;
+                    //dfs(grid, i, j);
+                    res = max(res, dfs(grid, i, j, row, column, island));
                 }
             }
         }
