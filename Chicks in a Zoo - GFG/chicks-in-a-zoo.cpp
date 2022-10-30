@@ -7,6 +7,7 @@ class Solution {
 public:
 	long long int NoOfChicks(int n){
 	    // Code here
+	    
 	    long long total=1;
 	    
 	    vector<long long> chick(n,0);
@@ -21,6 +22,7 @@ public:
 	    }
 	    
 	    return total;
+	    
 	}
 };
 
