@@ -12,7 +12,6 @@ public:
     int minIteration(int N, int M, int x, int y){    
         // code here
         return max(max(x+y-2, N-x+M-y), max(x-1+M-y, N-x+y-1));
-        
     }
 };
 
