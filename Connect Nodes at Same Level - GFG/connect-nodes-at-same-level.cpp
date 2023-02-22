@@ -136,7 +136,6 @@ void inorder(Node *root)
 class Solution{
     public:
     
-    
      void bfs(Node* root){
 
             if(!root) return;
@@ -174,7 +173,9 @@ class Solution{
     void connect(Node *root)
     {
        // Code Here
+       
        bfs(root);
+       
     }    
 };
 
