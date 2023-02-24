@@ -8,89 +8,52 @@ using namespace std;
 
 class Solution {
   public:
-    vector<int>dk(unordered_map<int,vector<pair<int,int>>>&adj,int n,int s){
-
-      vector<int>dis(n+1,1e9);
-
-      dis[s]=0;
-
-      priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-
-      pq.push({0,s});
-
-      while(pq.size()){
-
-          auto d=pq.top();
-
-          pq.pop();
-
-          int x=d.second;
-
-          for(auto c:adj[x]){
-
-              if(dis[c.first]>dis[x]+c.second){
-
-                  dis[c.first]=dis[x]+c.second;
-
-                  pq.push({dis[c.first],c.first});
-
-              }
-
-          }
-
-      }
-
-      return dis;
-
-  }
-
+  
+  vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
+    {
+        vector<int> dis(V+5, INT_MAX);
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq; // store distance and node
+        dis[S] = 0;
+        pq.push({0, S});
+        while(!pq.empty()) {
+            int node = pq.top().second;
+            int dis_curr = pq.top().first;
+            pq.pop();
+            for(auto& it: adj[node]) {
+                int nxt_dis = dis_curr + it[1];
+                if(dis[it[0]]>nxt_dis) {
+                    dis[it[0]] = nxt_dis;
+                    pq.push({nxt_dis, it[0]});
+                }
+            }
+        }
+        return dis;
+    }
+  
+  
     int shortestPath(int n, int m, int a, int b, vector<vector<int>> &edges) {
-
         // code here
-
-        unordered_map<int,vector<pair<int,int>>>adj;
-
-        for(auto x:edges){
-
-            int u=x[0];
-
-            int v=x[1];
-
-            int w=x[2];
-
-            
-
-            adj[u].push_back({v,w});
-
-            adj[v].push_back({u,w});
-
-            
-
-        }
-
-        vector<int>dis1=dk(adj,n,a);
-
-        vector<int>dis2=dk(adj,n,b);
-
-        int ans=min(dis1[b],dis2[a]);
-
-        for(int i=0;i<m;i++){
-
-            int u=edges[i][0];
-
-            int v=edges[i][1];
-
-            int c=edges[i][3];
-
-            ans=min({ans,dis1[u]+c+dis2[v],dis1[v]+c+dis2[u]});
-
-        }
-
-        if(ans>=1e9)return -1;
-
-        return ans;
-
         
+        vector<vector<int>> adj[n+5];
+        for(auto& x: edges) {
+            adj[x[0]].push_back({x[1], x[2]});
+            adj[x[1]].push_back({x[0], x[2]});
+        }
+        vector<int> disa = dijkstra(n, adj, a);
+        vector<int> disb = dijkstra(n, adj, b);
+        int ans = disa[b];
+        for(auto x: edges) {
+            if(disa[x[0]]!=INT_MAX && disb[x[1]]!=INT_MAX) {
+                int now = disa[x[0]] + disb[x[1]] + x[3]; 
+                ans = min(ans, now);
+            }
+            swap(x[0], x[1]);
+            if(disa[x[0]]!=INT_MAX && disb[x[1]]!=INT_MAX) {
+                int now = disa[x[0]] + disb[x[1]] + x[3]; 
+                ans = min(ans, now);
+            }
+        }
+        return ans==INT_MAX ? -1 : ans;
     }
 };
 
