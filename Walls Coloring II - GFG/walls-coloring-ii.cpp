@@ -12,6 +12,7 @@ class Solution{
 public:
     int minCost(vector<vector<int>> &c) {
         // write your code here
+        
          int n = c.size();
         int k = c[0].size();
         
@@ -61,6 +62,7 @@ public:
         }
         
         return f;
+        
     }
 };
 
