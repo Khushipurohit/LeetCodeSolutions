@@ -16,14 +16,13 @@ public:
         
         int j=k-1;
         int i=0;
-        int left=-k;
+        //int left=-k;
         int end = n/k;
         int m = n%k;
-        
        // cout<<i<<"\n";
        
        
-        for(int c = 0; c < end; c++)
+        for(int c = 0; c <= end; c++)
         {
             
             
@@ -40,7 +39,7 @@ public:
         
         
         
-        reverse(arr.begin()+n-m,arr.end());
+        //reverse(arr.begin()+n-,arr.end());
     }
 };
 
