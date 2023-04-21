@@ -12,17 +12,17 @@ class Solution
         // Your code here
         vector<int>v(num);
         priority_queue<int,vector<int> ,greater<int>>pq;
-        for(int i=0;i<num;i++)
+        for(int i=0;i<K+1;i++)
         {
             pq.push(arr[i]);
         }
         int index=0;
-        // for(int i=K+1;i<num;i++)
-        // {
-        //     v[index++]=pq.top();
-        //     pq.pop();
-        //     pq.push(arr[i]);
-        // }
+        for(int i=K+1;i<num;i++)
+        {
+            v[index++]=pq.top();
+            pq.pop();
+            pq.push(arr[i]);
+        }
         while(pq.empty()==false)
         {
             v[index++]=pq.top();
