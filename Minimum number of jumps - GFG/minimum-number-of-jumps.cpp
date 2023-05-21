@@ -33,9 +33,9 @@ class Solution{
                 highJ = max(highJ, i+arr[i]);
                 steps--;
                 
-                if(steps < 0){
-                    return -1;
-                }
+                // if(steps < 0){
+                //     return -1;
+                // }
                 
                 if(steps == 0){
                     jump++;
