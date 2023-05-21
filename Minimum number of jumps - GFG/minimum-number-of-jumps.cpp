@@ -26,7 +26,7 @@ class Solution{
         
         else{
             for(int i = 1; i < n; i++){
-                if(i == n-1 && steps){
+                if(i == n-1){
                     return jump;
                 }
                 
