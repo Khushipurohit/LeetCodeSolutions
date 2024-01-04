@@ -1,43 +1,29 @@
 class Solution {
 public:
+    
+    long long calculateCost(vector<int>& nums, vector<int>& cost, int target) {
+      long long sumOfCost = 0;
+      for(int i=0;i<nums.size();i++) {
+        sumOfCost += ((long long)abs(nums[i]-target)*(long long)cost[i]);
+      }
+      return sumOfCost;
+    }
+
     long long minCost(vector<int>& nums, vector<int>& cost) {
-        int n;
-        n=nums.size();
-
-        long long curr,ans;
-        curr=0;
-        ans=LLONG_MAX;
-
-        vector<pair<int,int>> v(n);
-        vector<long long> pre(n+1);
-
-        for(int i=0;i<n;i++)
-        {
-            v[i]={nums[i],cost[i]};
+        int left = *min_element(nums.begin(), nums.end());
+        int right = *max_element(nums.begin(), nums.end());
+        long long ans = 1e17;
+        while(left<=right) {
+          int mid = (left+right)/2;
+          long long costMid = calculateCost(nums, cost, mid);
+          long long costAfterMid = calculateCost(nums, cost, mid+1);
+          if(costMid<costAfterMid) {
+            right = mid - 1;
+          } else {
+            left = mid + 2;
+          }
+          ans = min(ans, min(costMid, costAfterMid));
         }
-
-        sort(v.begin(),v.end());
-
-        for(int i=1;i<=n;i++)
-        {
-            pre[i]=pre[i-1]+v[i-1].second;
-        }    
-
-        for(int i=1;i<n;i++)
-        {
-            curr+=1LL*(v[i].first-v[0].first)*v[i].second;
-        }
-
-        ans=min(ans,curr);
-
-        for(int i=1;i<n;i++)
-        {
-            curr+=1LL*(v[i].first-v[i-1].first)*(pre[i]-pre[0]);
-            curr-=1LL*(v[i].first-v[i-1].first)*(pre[n]-pre[i]);
-
-            ans=min(ans,curr);
-        }
-
         return ans;
     }
 };
